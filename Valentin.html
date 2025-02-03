@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinnamoroll Valentine</title>
+    <style>
+        body {
+            background: linear-gradient(45deg, #FFE6F0, #D4F1FF);
+            height: 100vh;
+            margin: 0;
+            font-family: 'Comic Neue', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 182, 193, 0.3);
+            max-width: 90%;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        h1 {
+            color: #7AC4D6;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin: 0 0 1.5rem 0;
+            font-family: 'Pacifico', cursive;
+            line-height: 1.2;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            position: relative;
+            min-height: 120px;
+            padding: 10px;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            min-width: 140px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        #btnSi {
+            background: #FF85A2;
+            color: white;
+        }
+
+        #btnNo {
+            background: #7AC4D6;
+            color: white;
+        }
+
+        #mensajeEspecial {
+            display: none;
+            position: absolute;
+            top: 54%; /* Adjusted positioning */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+        }
+
+        .message-text {
+            animation: aparecer 1s ease;
+            font-size: 1.5rem;
+            color: #FF85A2;
+            padding: 0 20px;
+            margin-top: 15px; /* Fine-tuned spacing */
+        }
+
+        .cinnamoroll-img {
+            position: absolute;
+            z-index: 1;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        #cinnamoroll-left {
+            width: 150px;
+            left: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #cinnamoroll-right {
+            width: 120px;
+            right: 5%;
+            bottom: 20%;
+        }
+
+        @keyframes aparecer {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <img src="https://media.tenor.com/4aU5x5KX7QgAAAAj/cinnamoroll-sanrio.gif" class="cinnamoroll-img" id="cinnamoroll-left">
+    <img src="https://media.tenor.com/1Wx8X5UyQe4AAAAj/cinnamoroll.gif" class="cinnamoroll-img" id="cinnamoroll-right">
+
+    <div class="container">
+        <h1>¿Quieres ser mi Cinnamoroll<br>para este San Valentín? 💌</h1>
+        
+        <div class="buttons">
+            <button id="btnSi">Siiii</button>
+            <button id="btnNo">No</button>
+        </div>
+        
+        <div id="mensajeEspecial">
+            <div class="message-text">
+                <p>¡Lo sabía jsjsjs! 💙</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const btnNo = document.getElementById('btnNo');
+        const btnSi = document.getElementById('btnSi');
+        const mensaje = document.getElementById('mensajeEspecial');
+        const buttonsContainer = document.querySelector('.buttons');
+        let isMoving = false;
+
+        const moveButton = () => {
+            if(isMoving) return;
+            isMoving = true;
+            
+            const containerRect = buttonsContainer.getBoundingClientRect();
+            const buttonRect = btnNo.getBoundingClientRect();
+            
+            const maxX = containerRect.width - buttonRect.width;
+            const maxY = containerRect.height - buttonRect.height;
+            
+            const newX = Math.random() * maxX - (maxX/2);
+            const newY = Math.random() * maxY - (maxY/2);
+            
+            btnNo.style.transition = 'all 0.4s ease';
+            btnNo.style.transform = `translate(${newX}px, ${newY}px)`;
+            
+            setTimeout(() => {
+                isMoving = false;
+                btnNo.style.transition = 'none';
+            }, 400);
+        };
+
+        btnNo.addEventListener('mouseenter', moveButton);
+        btnNo.addEventListener('touchstart', moveButton);
+        
+        buttonsContainer.addEventListener('mouseleave', () => {
+            btnNo.style.transform = 'translate(0, 0)';
+        });
+
+        btnSi.addEventListener('click', () => {
+            mensaje.style.display = 'block';
+            btnNo.style.display = 'none';
+            btnSi.style.display = 'none';
+        });
+
+        window.addEventListener('load', () => {
+            btnNo.style.transform = 'translate(0, 0)';
+        });
+    </script>
+</body>
+</html>
